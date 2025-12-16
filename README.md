@@ -60,4 +60,4 @@ Voici comment chaque point demandé a été implémenté dans l'application :
 *   **Header / Footer** : Composants présents sur toutes les pages (`Header.jsx`, `Footer.jsx`).
 
 ## 👤 Auteur
-Projet réalisé par [Votre Nom].
+Projet réalisé par Markhus Hounsou.
