@@ -5,9 +5,11 @@
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 
+![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-blue?style=for-the-badge&logo=github)
+
 **SushiFast** est une plateforme moderne de consultation de menus de sushis développée avec React. Conçu pour offrir une expérience utilisateur fluide, le projet met en avant des fonctionnalités avancées de filtrage, de tri et de gestion dynamique des données.
 
-🔗 **[Démo Live](https://MarkhusHounsou.github.io/sushifast)**
+### 🔗 [Voir le site en ligne (GitHub Pages)](https://MarkhusHounsou.github.io/sushifast)
 
 ---
 
