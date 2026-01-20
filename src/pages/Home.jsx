@@ -5,39 +5,50 @@ import "../styles/Home.css";
 import DropdownMulti from "../components/DropdownMulti";
 import DropdownSimple from "../components/DropdownSimple";
 
+// Importation dynamique des images depuis le dossier assets
 const images = import.meta.glob("../assets/*.{jpg,jpeg,png,webp}", {
   eager: true,
   import: "default",
 });
 
+/**
+ * Home - Page d'accueil de l'application
+ * Affiche la liste complète des menus avec des filtres interactifs :
+ * - Filtrage par saveurs (multi-sélection)
+ * - Exclusion d'aliments (multi-sélection)
+ * - Tri par prix (croissant/décroissant)
+ */
 export default function Home() {
+  // Récupération des données des menus depuis le contexte
   const { menus } = useContext(MenuContext);
 
-  // Dropdown ouvert
+  // État pour gérer quel dropdown est actuellement ouvert
   const [openDropdown, setOpenDropdown] = useState(null);
 
-  // Filtres
-  const [selectedFlavors, setSelectedFlavors] = useState([]);
-  const [excludedIngredients, setExcludedIngredients] = useState([]);
-  const [priceSort, setPriceSort] = useState("");
+  // États pour les différents filtres
+  const [selectedFlavors, setSelectedFlavors] = useState([]); // Saveurs sélectionnées
+  const [excludedIngredients, setExcludedIngredients] = useState([]); // Aliments à exclure
+  const [priceSort, setPriceSort] = useState(""); // Type de tri par prix
 
-  // Saveurs uniques
+  // Extraction de toutes les saveurs uniques disponibles dans les menus
   const allSaveurs = [...new Set(menus.flatMap((m) => m.saveurs))].sort();
 
-  // Ingrédients uniques
+  // Extraction de tous les ingrédients uniques disponibles dans les menus
   const allIngredients = [
     ...new Set(menus.flatMap((m) => m.aliments.map((a) => a.nom))),
   ].sort();
 
-  // Filtrage
+  // Application des filtres sur les menus
   let filteredMenus = menus;
 
+  // Filtre 1 : Saveurs sélectionnées (le menu doit contenir TOUTES les saveurs cochées)
   if (selectedFlavors.length > 0) {
     filteredMenus = filteredMenus.filter((menu) =>
       selectedFlavors.every((s) => menu.saveurs.includes(s))
     );
   }
 
+  // Filtre 2 : Exclusion d'aliments (le menu ne doit contenir AUCUN des aliments cochés)
   if (excludedIngredients.length > 0) {
     filteredMenus = filteredMenus.filter(
       (menu) =>
@@ -45,9 +56,12 @@ export default function Home() {
     );
   }
 
+  // Tri par prix
   if (priceSort === "asc") {
+    // Tri croissant : du moins cher au plus cher
     filteredMenus = [...filteredMenus].sort((a, b) => a.prix - b.prix);
   } else if (priceSort === "desc") {
+    // Tri décroissant : du plus cher au moins cher
     filteredMenus = [...filteredMenus].sort((a, b) => b.prix - a.prix);
   }
 
@@ -56,11 +70,12 @@ export default function Home() {
       <div className="container py-5">
         <h1 className="text-center mb-5">Nos Box Sushi</h1>
 
-        {/* FILTRES */}
+        {/* SECTION FILTRES */}
         <div
           className="d-flex flex-wrap align-items-center mb-4 gap-3"
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()} // Empêche la fermeture des dropdowns lors du clic
         >
+          {/* Filtre multi-sélection : Saveurs */}
           <DropdownMulti
             title="Saveurs"
             options={allSaveurs}
@@ -72,6 +87,7 @@ export default function Home() {
             }
           />
 
+          {/* Filtre multi-sélection : Exclusion d'aliments */}
           <DropdownMulti
             title="Exclure des aliments"
             options={allIngredients}
@@ -85,6 +101,7 @@ export default function Home() {
             }
           />
 
+          {/* Filtre simple : Tri par prix */}
           <DropdownSimple
             title="Prix"
             selected={priceSort}
@@ -100,6 +117,7 @@ export default function Home() {
             ]}
           />
 
+          {/* Bouton de réinitialisation de tous les filtres */}
           <button
             className="btn btn-outline-danger ms-auto"
             onClick={() => {
@@ -112,9 +130,10 @@ export default function Home() {
           </button>
         </div>
 
-        {/* MENUS */}
+        {/* SECTION AFFICHAGE DES MENUS */}
         <div className="row g-4">
           {filteredMenus.map((menu) => {
+            // Récupération de l'image correspondante au menu
             const imgSrc =
               images[`../assets/${menu.image}.jpg`] ||
               images[`../assets/${menu.image}.png`] ||
@@ -122,7 +141,9 @@ export default function Home() {
 
             return (
               <div key={menu.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
+                {/* Carte de menu */}
                 <div className="card shadow-sm h-100 card-hover card-image-hover">
+                  {/* Image cliquable du menu */}
                   <Link to={`/menu/${menu.id}`}>
                     <img
                       src={imgSrc}
@@ -132,7 +153,9 @@ export default function Home() {
                     />
                   </Link>
 
+                  {/* Corps de la carte avec les informations */}
                   <div className="card-body d-flex flex-column">
+                    {/* Nom du menu (cliquable) */}
                     <Link
                       to={`/menu/${menu.id}`}
                       className="text-decoration-none text-dark"
@@ -140,8 +163,10 @@ export default function Home() {
                       <h5 className="card-title">{menu.nom}</h5>
                     </Link>
 
+                    {/* Nombre de pièces */}
                     <p className="text-muted mb-1">{menu.pieces} pièces</p>
 
+                    {/* Liste des saveurs */}
                     <p className="small">
                       <strong>Saveurs :</strong>{" "}
                       {menu.saveurs
@@ -151,6 +176,7 @@ export default function Home() {
                         .join(", ")}
                     </p>
 
+                    {/* Liste des aliments */}
                     <p className="small">
                       <strong>Aliments :</strong>{" "}
                       {menu.aliments
@@ -161,6 +187,7 @@ export default function Home() {
                         .join(", ")}
                     </p>
 
+                    {/* Prix du menu */}
                     <h5 className="mt-auto fw-bold">
                       {menu.prix.toFixed(2)} €
                     </h5>

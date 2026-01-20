@@ -1,63 +1,82 @@
-# SushiFast
+# 🍣 SushiFast - Application Web React
 
-Application React de présentation de menus de sushis, réalisée dans le cadre du TP de développement Frontend.
+![SushiFast Banner](https://img.shields.io/badge/Status-Livr%C3%A9-success?style=for-the-badge) 
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 
-## 📋 Contexte
-Le restaurant SushiFast souhaite promouvoir ses menus à travers une application web permettant de consulter les détails, filtrer par préférences et calculer des prix totaux pour certaines catégories de menus.
+![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-blue?style=for-the-badge&logo=github)
 
-## 🚀 Installation et Lancement
+**SushiFast** est une plateforme moderne de consultation de menus de sushis développée avec React. Conçu pour offrir une expérience utilisateur fluide, le projet met en avant des fonctionnalités avancées de filtrage, de tri et de gestion dynamique des données.
 
-1.  **Cloner le projet** (ou télécharger les sources)
+### 🔗 [Voir le site en ligne (GitHub Pages)](https://MarkhusHounsou.github.io/sushifast)
+
+---
+
+## ✨ Fonctionnalités Clés
+
+- 🏮 **Catalogue Interactif** : Exploration complète des menus avec visuels haute résolution et détails précis.
+- 🔍 **Filtrage Intelligent** : Recherche par saveurs spécifiques (ex: avocat, coriandre) et exclusion d'aliments indésirables.
+- 🏷️ **Détails Menus** : Fiche technique pour chaque box listant les ingrédients et quantités.
+- 📊 **Analyse de Données** : Identification automatique des menus "extrêmes" (< 13 pièces) et calcul du prix total du lot.
+- ↕️ **Tri Dynamique** : Classement par prix pour trouver rapidement les meilleures offres.
+
+---
+
+## 🛠️ Stack Technique
+
+- **Frontend core** : React 18
+- **Build Tool** : Vite.js
+- **Routing** : React Router DOM (HashRouter pour la compatibilité GitHub Pages)
+- **Styling** : Bootstrap 5 & Custom CSS
+- **Data Management** : JSON local & Context API pour le partage d'état
+
+---
+
+## 🚀 Installation Locale
+
+1.  **Cloner le dépôt** :
+    ```bash
+    git clone https://github.com/MarkhusHounsou/sushifast.git
+    cd sushifast
+    ```
 2.  **Installer les dépendances** :
     ```bash
     npm install
     ```
-3.  **Lancer l'application** :
+3.  **Lancer le serveur de développement** :
     ```bash
     npm run dev
     ```
 
-## ✅ Réponse aux Spécifications Fonctionnelles
+---
 
-Voici comment chaque point demandé a été implémenté dans l'application :
+## 🌐 Procédure de Déploiement
 
-### 1. Affichage de tous les menus
-*   **Localisation** : Page d'accueil (`Route: /`) - composant `Home.jsx`.
-*   **Détails** : La page liste l'intégralité des menus présents dans le fichier `boxes.json`. Chaque carte affiche le nom, le nombre de pièces, l'image correspondante et le prix.
+Cette application est configurée pour un déploiement automatisé sur **GitHub Pages**. Voici la procédure suivie pour garantir un fonctionnement optimal :
 
-### 2. Présentation des saveurs de chaque menu
-*   **Localisation** :
-    *   Page d'accueil (`Home.jsx`) : Sur chaque carte de menu.
-    *   Page détails (`MenuDetails.jsx`) : Liste complète des saveurs.
+### 1. Configuration Technique
+- **Base Path** : Le fichier `vite.config.js` est configuré avec `base: "/sushifast/"` pour assurer le chargement correct des assets sur les serveurs de GitHub.
+- **Routing** : Utilisation de `HashRouter` à la place de `BrowserRouter` pour éviter les erreurs `404` lors du rafraîchissement des pages profondes.
+- **NoJekyll** : Un fichier `.nojekyll` est présent dans le dossier `public` pour désactiver le traitement Jekyll de GitHub et accélérer le déploiement.
 
-### 3. Liste des menus contenant : avocat ou coriandre
-*   **Localisation** : Page d'accueil (`Home.jsx`).
-*   **Implémentation** : Un filtre "Saveurs" (Dropdown multi-sélection) permet de cocher "avocat" et/ou "coriandre". La liste des menus se met à jour dynamiquement pour n'afficher que ceux correspondant aux saveurs sélectionnées.
+### 2. Commande de Déploiement
+Le projet utilise le package `gh-pages`. Pour mettre à jour le site en ligne, une seule commande suffit :
 
-### 4. Liste des aliments d'un menu donné
-*   **Localisation** : Page détails (`Route: /menu/:id`) - composant `MenuDetails.jsx`.
-*   **Implémentation** : En cliquant sur un menu depuis l'accueil, on accède à sa fiche détaillée qui liste tous ses ingrédients ainsi que leurs quantités.
+```bash
+npm run deploy
+```
 
-### 5. Liste des menus ne contenant pas l'aliment "California Saumon Avocat"
-*   **Localisation** : Page d'accueil (`Home.jsx`).
-*   **Implémentation** : Un filtre "Exclure des aliments" permet de sélectionner des ingrédients à exclure. En cochant "California Saumon Avocat", la liste retire automatiquement tous les menus contenant cet aliment.
+**Ce que fait cette commande :**
+1. Elle exécute `npm run build` (script `predeploy`) pour générer les fichiers optimisés dans le dossier `dist`.
+2. Elle pousse le contenu du dossier `dist` sur une branche isolée nommée `gh-pages`.
+3. GitHub Pages publie ensuite automatiquement le contenu de cette branche.
 
-### 6. Prix total des menus < 13 pièces
-*   **Localisation** : Page "Menus extrêmes" (`Route: /extremes`) - composant `Extremes.jsx`.
-*   **Implémentation** : Une page dédiée filtre les menus ayant strictement moins de 13 pièces. Un encart en haut de page affiche la somme totale des prix de ces menus spécifiques.
+---
 
-### 7. Afficher le menu le plus cher et le moins cher
-*   **Localisation** : Page d'accueil (`Home.jsx`).
-*   **Implémentation** : Un tri par prix (Dropdown "Prix") permet de classer les menus :
-    *   "Moins cher → Plus cher" : Le premier élément est le menu le moins cher.
-    *   "Plus cher → Moins cher" : Le premier élément est le menu le plus cher.
+## 👨‍💻 Auteur
+**Markhus Hounsou**  
+*Projet réalisé dans le cadre d'un cursus de développement Frontend.*
 
-## 🛠 Contraintes Techniques Respectées
-
-*   **Source de données** : Utilisation exclusive de `boxes.json`.
-*   **Framework CSS** : Bootstrap 5 utilisé pour le layout (Grid system, Cards, Alerts, Headers).
-*   **Routage** : Implémenté avec `react-router-dom` (Routes définies dans `App.jsx`).
-*   **Header / Footer** : Composants présents sur toutes les pages (`Header.jsx`, `Footer.jsx`).
-
-## 👤 Auteur
-Projet réalisé par Markhus Hounsou.
+---
+© 2026 SushiFast - Tous droits réservés.
